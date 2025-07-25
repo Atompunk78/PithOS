@@ -1,0 +1,9 @@
+{
+    "title": "Picomon",
+    "description": "Turn-based elemental monster combat game",
+    "version": "1.7",
+    "reqAtomic": "1.2",
+    "priority": "75",
+    "author": "Henry Gurney",
+    "licence": "CC BY-NC-ND 4.0"
+}

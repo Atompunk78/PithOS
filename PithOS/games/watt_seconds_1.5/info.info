@@ -1,0 +1,8 @@
+{
+    "title": "Watt Seconds",
+    "description": "Electricity-based idle game",
+    "version": "1.5",
+    "priority": "10",
+    "author": "Henry Gurney",
+    "licence": "CC BY-NC-ND 4.0"
+}
