@@ -44,7 +44,7 @@ GREY  = RGBto565(215, 215, 215)
 # Licensed under CC BY-NC-ND 4.0
 
 sys.path.append("/")
-version = "v1.1"
+version = "v1.2"
 frameRate = 60
 
 lastButtonTime = {
@@ -94,7 +94,7 @@ def LoadGames(base="games"):
         fullPath = f"{base}/{entry}"
         try:
             stat = os.stat(fullPath)[0]
-        except OSError:
+        except:
             continue
 
         if stat & 0x4000 and "main.py" in os.listdir(fullPath):
@@ -142,11 +142,10 @@ def DrawMenu(games, sel, scroll):
         versionOk = CompareVersions(atomicVersion, reqAtomic)
         
         if not versionOk and reqAtomic:
-            # Show error message instead of description
-            errorMsg = f"Requires Atomic v{reqAtomic}"
-            Text8(errorMsg, 120, y + descOffset, jx=0.5, jy=0,
+            # Show error message on separate lines
+            Text8(f"Requires Atomic v{reqAtomic}", 120, y + descOffset, jx=0.5, jy=0,
                   fg=BLACK, bg=GREY if highlighted else WHITE)
-            Text8(f"Installed: v{atomicVersion}", 120, y + 72, jx=0.5, jy=0,
+            Text8(f"Installed: v{atomicVersion}", 120, y + descOffset + 16, jx=0.5, jy=0,
                   fg=BLACK, bg=GREY if highlighted else WHITE)
         else:
             # description (wrap to lines of max 26 chars, word-aware)
@@ -171,6 +170,9 @@ def DrawMenu(games, sel, scroll):
 
         if gameVersion:
             Text8(f"v{gameVersion}", leftX + 6, y + boxH - 3, jx=0, jy=1,
+                  fg=BLACK, bg=GREY if highlighted else WHITE)
+
+        Text8(f"MAIN", (240-leftX) - 6, y + boxH - 3, jx=1, jy=1, #or 'SD' if loaded from the SD card
                   fg=BLACK, bg=GREY if highlighted else WHITE)
 
         y += boxH + paddingY
@@ -235,8 +237,8 @@ def Launch(path):
 def ShowTitleScreen():
     display.fill(WHITE)
     Text16("PithOS", 120, 120, 0.5, 0.5) #change this to a better font
-    Text8(version, 8, 235, 0, 1)
-    Text8("by Henry Gurney", 232, 235, 1, 1)
+    Text8(version, 8, 5, 0, 0)
+    Text8("by Henry Gurney", 120, 235, 0.5, 1)
     sleep(2)
 
 ShowTitleScreen()
@@ -244,3 +246,7 @@ display.fill(WHITE)
 gameList = LoadGames()
 selectedGame = RunMenu(gameList)
 Launch(selectedGame)
+
+#TODO
+#add SD card support (and wire up the SD card reciever)
+#add a way to exit games and return to the menu
