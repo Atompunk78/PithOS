@@ -1,4 +1,4 @@
-from machine import Pin, SPI
+from machine import Pin, SPI, ADC
 import st7789
 import os, sys, gc
 from time import sleep, ticks_ms
@@ -20,6 +20,7 @@ display = st7789.ST7789(
 )
 
 Pin(13, Pin.OUT).value(1)
+batteryAdc = ADC(26)
 
 try:
     display.init()
@@ -44,11 +45,10 @@ GREY  = RGBto565(215, 215, 215)
 # Licensed under CC BY-NC-ND 4.0
 
 sys.path.append("/")
-version = "v1.2"
-frameRate = 60
+version = "v1.3"
 
 lastButtonTime = {
-    'up': 0, 'down': 0, 'a': 0
+    'up': 0, 'down': 0, 'a': 0, 'y': 0
 }
 
 def CanPressButton(buttonName, minDelay=250):
@@ -180,34 +180,50 @@ def DrawMenu(games, sel, scroll):
 def RunMenu(games):
     sel = 0
     scroll = 0
-    prevUp = prevDown = prevA = False
+    inSettings = False
+    prevUp = prevDown = prevA = prevY = False
     DrawMenu(games, sel, scroll)
 
     while True:
         moved = False
         
-        if Pressed(iDown):
-            if not prevDown and CanPressButton('down'):
-                sel = (sel + 1) % len(games)
-                moved = True
-        elif Pressed(iUp):
-            if not prevUp and CanPressButton('up'):
-                sel = (sel - 1) % len(games)
-                moved = True
-        elif Pressed(iA):
-            if not prevA and CanPressButton('a'):
-                return games[sel][4]  # Game path is now at index 4
-        
-        prevUp = Pressed(iUp)
-        prevDown = Pressed(iDown)
-        prevA = Pressed(iA)
+        if inSettings:
+            # Settings screen logic
+            if Pressed(iY):
+                if not prevY and CanPressButton('y'):
+                    inSettings = False
+                    display.fill(WHITE)
+                    DrawMenu(games, sel, scroll)
+            prevY = Pressed(iY)
+        else:
+            # Main menu logic
+            if Pressed(iDown):
+                if not prevDown and CanPressButton('down'):
+                    sel = (sel + 1) % len(games)
+                    moved = True
+            elif Pressed(iUp):
+                if not prevUp and CanPressButton('up'):
+                    sel = (sel - 1) % len(games)
+                    moved = True
+            elif Pressed(iA):
+                if not prevA and CanPressButton('a'):
+                    return games[sel][4]  # Game path is now at index 4
+            elif Pressed(iY):
+                if not prevY and CanPressButton('y'):
+                    inSettings = True
+                    DrawSettingsScreen()
+            
+            prevUp = Pressed(iUp)
+            prevDown = Pressed(iDown)
+            prevA = Pressed(iA)
+            prevY = Pressed(iY)
 
-        if moved:
-            if sel < scroll:
-                scroll = sel
-            elif sel >= scroll + maxVisible:
-                scroll = sel - maxVisible + 1
-            DrawMenu(games, sel, scroll)
+            if moved:
+                if sel < scroll:
+                    scroll = sel
+                elif sel >= scroll + maxVisible:
+                    scroll = sel - maxVisible + 1
+                DrawMenu(games, sel, scroll)
 
         sleep(0.01)
 
@@ -237,9 +253,47 @@ def Launch(path):
 def ShowTitleScreen():
     display.fill(WHITE)
     Text16("PithOS", 120, 120, 0.5, 0.5) #change this to a better font
-    Text8(version, 8, 5, 0, 0)
-    Text8("by Henry Gurney", 120, 235, 0.5, 1)
     sleep(2)
+
+def BatteryPercentage():
+    raw = batteryAdc.read_u16()
+    voltage = (raw / 65535) * 3.3
+    if voltage <= 2: #on usb power
+        perc = 100
+    elif voltage >= 4.2:
+        perc = 100
+    elif voltage <= 3.4:
+        perc = 0 #auto shutoff here
+    else:
+        perc = int(round((voltage - 3.4) * (4.2/3.4) * 100, 0)) #3.4V is empty, 4.2V is full
+    return perc, voltage
+
+def GetFlashUsage():
+    stats = os.statvfs('/')
+    block_size = stats[0]
+    total_blocks = stats[2]
+    free_blocks = stats[3]
+
+    total_bytes = block_size * total_blocks
+    free_bytes  = block_size * free_blocks
+    used_bytes  = total_bytes - free_bytes
+
+    total_mb = total_bytes / (1024 * 1024)
+    used_mb  = used_bytes  / (1024 * 1024)
+
+    return used_mb, total_mb
+
+
+def DrawSettingsScreen():
+    display.fill(WHITE)
+    perc, _ = BatteryPercentage()
+    used, total = GetFlashUsage()
+
+    Text16("Settings", 120, 10, 0.5, 0)
+    Text16(f"Battery: {perc:>3}%", 120, 105, 0.5, 0.5)
+    Text16(f"Disk: {used:.1f}/{total:.0f}MB", 120, 145, 0.5, 0.5)
+    Text8(version, 8, 235, 0, 1)
+    Text8("(c) Henry Gurney", 232, 235, 1, 1)
 
 ShowTitleScreen()
 display.fill(WHITE)
@@ -248,5 +302,8 @@ selectedGame = RunMenu(gameList)
 Launch(selectedGame)
 
 #TODO
-#add SD card support (and wire up the SD card reciever)
+#add SD card support (after I wire up the SD card reciever)
 #add a way to exit games and return to the menu
+#probably let you copy games from the SD card to the internal storage
+#and let you delete internal games
+#probably add the battery and storage info to the games selection as a top menu bar
