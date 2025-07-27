@@ -26,7 +26,7 @@ The buffer must be a bytearray or memoryview of RGB565 pixels.
 - `width`: buffer width in pixels
 
 **Example**  
-`SetPixel(buf, 10, 12, 0xF800, 240)`
+`graphics.SetPixel(buf, 10, 12, 0xF800, 240)`
 
 ---
 
@@ -41,7 +41,7 @@ The destination buffer must be 32×32 RGB565 pixels (2048 bytes).
 - `dstX`, `dstY`: offset in the buffer (usually 0 or 16)
 
 **Example**  
-`BlitTileToBuffer(tile, buffer, 0, 0)`
+`graphics.BlitTileToBuffer(tile, buffer, 0, 0)`
 
 ---
 
@@ -56,7 +56,7 @@ A higher weight yields more of the second colour.
 - `weight`: blend weight (0 = all A, 255 = all B)
 
 **Example**  
-`BlendRGB565(0xF800, 0x07E0, 128)`
+`graphics.BlendRGB565(0xF800, 0x07E0, 128)`
 
 ---
 
@@ -74,7 +74,7 @@ Useful for drawing sprites without overwriting background tiles.
 - `transparent`: RGB565 colour to treat as transparent
 
 **Example**  
-`BlitTransparentSprite(sprite, framebuffer, 240, 64, 32, 16, 16, WHITE)`
+`graphics.BlitTransparentSprite(sprite, framebuffer, 240, 64, 32, 16, 16, WHITE)`
 
 ---
 
@@ -87,7 +87,7 @@ Convert 8-bit per channel RGB values to a single 16-bit RGB565 value.
 - **Returns**: 16-bit RGB565 colour
 
 **Example**  
-`RGBto565(255, 0, 0)`
+`graphics.RGBto565(255, 0, 0)`
 
 ---
 
@@ -101,7 +101,7 @@ Must be a 6-character hex code with or without a leading `#`.
 - **Returns**: 16-bit RGB565 colour
 
 **Example**  
-`HEXto565("#00FF00")`
+`graphics.HEXto565("#00FF00")`
 
 ---
 
@@ -168,6 +168,20 @@ Mainly for internal use or performance-critical logic.
 
 Efficient helper functions for core tasks.
 
+### Pressed
+
+Check if a button is currently being pressed (i.e. its GPIO pin is low).  
+This is useful for reading physical button states with internal pull-ups.
+
+**Pressed(pin)**  
+- `pin`: a `machine.Pin` object (configured as `Pin.IN` with `Pin.PULL_UP`)  
+- **Returns**: `True` if the button is pressed, `False` otherwise
+
+**Example**  
+`iA = utilities.Pressed(iA)`
+
+---
+
 ### DrawText
 
 Render aligned text to the screen using a bitmap font.  
@@ -182,21 +196,38 @@ Supports optional justification to centre or align text.
 - `jx`, `jy`: justification (0 = left/top, 0.5 = centre, 1 = right/bottom)
 
 **Example**  
-`DrawText(display, font8, "Hello!", 120, 100, WHITE, BLACK, 0.5, 0.5)`
+`utilities.DrawText(display, font8, "Hello!", 120, 100, WHITE, BLACK, 0.5, 0.5)`
 
 ---
 
-### Pressed
+### WrapText
 
-Check if a button is currently being pressed (i.e. its GPIO pin is low).  
-This is useful for reading physical button states with internal pull-ups.
+Automatically break a long string into multiple lines that fit a
+fixed-width text box – perfect for dialogue windows, menus, and intro
+screens.
 
-**Pressed(pin)**  
-- `pin`: a `machine.Pin` object (configured as `Pin.IN` with `Pin.PULL_UP`)  
-- **Returns**: `True` if the button is pressed, `False` otherwise
+**WrapText(msg, maxChars)**  
+- `msg`: full text (may contain `\n`, which forces a new paragraph)  
+- `maxChars`: maximum characters per rendered line  
+- **Returns**: `list[str]` – each element is a line no longer than
+  `maxChars`
 
-**Example**  
-`iA = Pressed(iA)`
+The function keeps whole words together; if a single word is longer
+than `maxChars` it is placed on its own line.  
+Existing `\n` characters are respected as hard paragraph breaks.
+
+**Example**
+
+```python
+lines = utilities.WrapText(
+    "Electricity now costs $1 per watt-second — a 1,400,000,000% increase!", 26
+)
+
+y = 20
+for line in lines:
+    utilities.DrawText(display, font8, line, 120, y, BLACK, WHITE, 0.5, 0.5)
+    y += font8.HEIGHT
+```
 
 ---
 

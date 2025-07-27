@@ -851,7 +851,7 @@ def DrawTitleScreen():
     display.fill(WHITE)
     Txt(version, 6, 6, 0, 0)
     #Txt(f"a{atomic_version}", 234, 6, 1, 0)
-    DrawText(display, font16, "Watt Seconds", 120, 110, BLACK, WHITE, 0.5, 0.5)
+    DrawText(display, font16, "The $1 Watt", 120, 110, BLACK, WHITE, 0.5, 0.5)
     Txt("Press A to Start", 120, 135, 0.5, 0)
     Txt("by Henry Gurney", 120, 220, 0.5, 0)
 

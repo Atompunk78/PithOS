@@ -1,8 +1,0 @@
-{
-    "title": "PicoPong",
-    "description": "Reflex-based paddle and ball game",
-    "version": "1.3",
-    "priority": "25",
-    "author": "Henry Gurney",
-    "licence": "CC BY-NC-ND 4.0"
-}

@@ -1,3 +1,6 @@
+# Copyright (c) 2025 Henry Gurney
+# Licensed under CC BY-NC-ND 4.0
+
 from machine import Pin, SPI, ADC
 import st7789
 import os, sys, gc
@@ -5,7 +8,7 @@ from time import sleep, ticks_ms
 import vga2_16x32 as font16
 import vga2_8x16 as font8
 
-from atomic import utilities, Pressed, RGBto565
+from atomic import utilities, Pressed, RGBto565, WrapText
 from atomic import __version__ as atomicVersion
 
 spi = SPI(1, baudrate=60000000, polarity=1, phase=1,
@@ -41,11 +44,8 @@ BLACK = RGBto565(0, 0, 0)
 WHITE = RGBto565(255, 255, 255)
 GREY  = RGBto565(215, 215, 215)
 
-# Copyright (c) 2025 Henry Gurney
-# Licensed under CC BY-NC-ND 4.0
-
 sys.path.append("/")
-version = "v1.3"
+version = "v1.4"
 
 lastButtonTime = {
     'up': 0, 'down': 0, 'a': 0, 'y': 0
@@ -142,38 +142,22 @@ def DrawMenu(games, sel, scroll):
         versionOk = CompareVersions(atomicVersion, reqAtomic)
         
         if not versionOk and reqAtomic:
-            # Show error message on separate lines
             Text8(f"Requires Atomic v{reqAtomic}", 120, y + descOffset, jx=0.5, jy=0,
                   fg=BLACK, bg=GREY if highlighted else WHITE)
             Text8(f"Installed: v{atomicVersion}", 120, y + descOffset + 16, jx=0.5, jy=0,
                   fg=BLACK, bg=GREY if highlighted else WHITE)
         else:
-            # description (wrap to lines of max 26 chars, word-aware)
-            descLines = []
-            words = desc.split()
-            currentLine = ""
-            
-            for word in words:
-                if len(currentLine + word) <= 26:
-                    currentLine += word + " "
-                else:
-                    if currentLine:
-                        descLines.append(currentLine.strip())
-                    currentLine = word + " "
-            
-            if currentLine:
-                descLines.append(currentLine.strip())
-            
-            for j, line in enumerate(descLines[:2]):
-                Text8(line, 120, y + descOffset + j*16, jx=0.5, jy=0,
+            descLines = WrapText(desc, 26)
+            for j in range(min(len(descLines), 2)):
+                Text8(descLines[j], 120, y + descOffset + j*16, jx=0.5, jy=0,
                      fg=BLACK, bg=GREY if highlighted else WHITE)
 
         if gameVersion:
             Text8(f"v{gameVersion}", leftX + 6, y + boxH - 3, jx=0, jy=1,
                   fg=BLACK, bg=GREY if highlighted else WHITE)
 
-        Text8(f"MAIN", (240-leftX) - 6, y + boxH - 3, jx=1, jy=1, #or 'SD' if loaded from the SD card
-                  fg=BLACK, bg=GREY if highlighted else WHITE)
+        #Text8(f"MAIN", (240-leftX) - 6, y + boxH - 3, jx=1, jy=1, #'MAIN', or 'SD' if loaded from the SD card
+        #          fg=BLACK, bg=GREY if highlighted else WHITE)
 
         y += boxH + paddingY
 
@@ -258,7 +242,7 @@ def ShowTitleScreen():
 def BatteryPercentage():
     raw = batteryAdc.read_u16()
     voltage = (raw / 65535) * 3.3
-    if voltage <= 2: #on usb power
+    if voltage <= 2: #on usb power, or possibly charging
         perc = 100
     elif voltage >= 4.2:
         perc = 100
@@ -266,6 +250,7 @@ def BatteryPercentage():
         perc = 0 #auto shutoff here
     else:
         perc = int(round((voltage - 3.4) * (4.2/3.4) * 100, 0)) #3.4V is empty, 4.2V is full
+    print(perc, voltage)
     return perc, voltage
 
 def GetFlashUsage():
@@ -302,8 +287,5 @@ selectedGame = RunMenu(gameList)
 Launch(selectedGame)
 
 #TODO
-#add SD card support (after I wire up the SD card reciever)
 #add a way to exit games and return to the menu
-#probably let you copy games from the SD card to the internal storage
-#and let you delete internal games
 #probably add the battery and storage info to the games selection as a top menu bar
