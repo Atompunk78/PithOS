@@ -45,7 +45,7 @@ WHITE = RGBto565(255, 255, 255)
 GREY  = RGBto565(215, 215, 215)
 
 sys.path.append("/")
-version = "v1.4"
+version = "v1.5"
 
 lastButtonTime = {
     'up': 0, 'down': 0, 'a': 0, 'y': 0
@@ -96,7 +96,8 @@ def LoadGames(base="games"):
             stat = os.stat(fullPath)[0]
         except:
             continue
-
+        
+        #print(fullPath.replace("games/",""))
         if stat & 0x4000 and "main.py" in os.listdir(fullPath):
             title, desc, gameVersion, reqAtomic, priority = entry, "", "", "", 0
             infoPath = f"{fullPath}/info.info"
@@ -109,9 +110,9 @@ def LoadGames(base="games"):
                     reqAtomic = meta.get("reqAtomic", "")
                     priority = int(meta.get("priority", 1))
                 except:
-                    title, desc, gameVersion, reqAtomic, priority = "ERROR", "Error loading game information", "", "", 0
+                    title, desc, gameVersion, reqAtomic, priority = fullPath.replace("games/",""), "Error: Couldn't load game information", "", "", 0
             else:
-                title, desc, gameVersion, reqAtomic, priority = "ERROR", "No game information found", "", "", 0
+                title, desc, gameVersion, reqAtomic, priority = fullPath.replace("games/",""), "Error: Couldn't find game information", "", "", 0
             games.append((title, desc, gameVersion, reqAtomic, f"{fullPath}/main.py", priority))
     return sorted(games, key=lambda g: (-g[5], g[0].lower()))
 
@@ -250,7 +251,7 @@ def BatteryPercentage():
         perc = 0 #auto shutoff here
     else:
         perc = int(round((voltage - 3.4) * (4.2/3.4) * 100, 0)) #3.4V is empty, 4.2V is full
-    print(perc, voltage)
+    #print(perc, voltage)
     return perc, voltage
 
 def GetFlashUsage():
