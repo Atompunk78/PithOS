@@ -919,4 +919,5 @@ while True:
 #TODO
 #maybe add a thing so if you fail to flee 3x in a row it just lets you
 #add other biomes and minibosses; maybe add le poisson steve as the water boss with only fire and electric moves
-#obviously more picomon is always a good thing too but they take ages, maybe ask anna for help after munich
+#obviously more picomon is always a good thing too but they take ages, maybe ask anna for help
+#occasional bug that causes extreme visual strangeness when the player moves, not sure why

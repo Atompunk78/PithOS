@@ -228,12 +228,15 @@ def Launch(path):
             exec(f.read(), {})
         
         os.chdir(originalDir)
+
+    except KeyboardInterrupt:
+        #display.fill(BLACK)
+        raise  # Exit the game cleanly on keyboard interrupt
     except Exception as e:
         display.fill(WHITE)
         Text8("Error:", 120, 100, jx=0.5)
         Text8(str(e)[:240], 120, 116, jx=0.5)
-        while True:
-            sleep(1)
+        sleep(5)
 
 def ShowTitleScreen():
     display.fill(WHITE)

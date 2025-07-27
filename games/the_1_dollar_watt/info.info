@@ -1,7 +1,8 @@
 {
     "title": "The $1 Watt",
     "description": "Electricity-based idle game",
-    "version": "1.5",
+    "version": "1.6",
+    "reqAtomic": "1.3",
     "priority": "10",
     "author": "Henry Gurney",
     "licence": "CC BY-NC-ND 4.0"

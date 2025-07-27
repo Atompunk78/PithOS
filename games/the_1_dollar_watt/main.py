@@ -52,16 +52,16 @@ DEBUG = False ###
 typeMults = {
     "hand crank": 1,
     "potato": 1.05,
-    "nuclear": 1.1,
-    "solar panel": 1.15,
-    "wind turbine": 1.3,
-    "burner": 1.5,
-    "hydro dam": 2,
-    "geothermal": 5,
-    "tidal": 3,
-    "generator": 1.5,
-    "power plant": 1.5,
-    "fuel cell": 1.2
+    "nuclear": 1.05,
+    "solar panel": 1.1,
+    "wind turbine": 1.1,
+    "burner": 1.25,
+    "hydro dam": 1.5,
+    "geothermal": 2.5,
+    "tidal": 2,
+    "generator": 1.25,
+    "power plant": 1.25,
+    "fuel cell": 1.1
 }
 
 class Generator:
@@ -614,40 +614,40 @@ generators = {               #name                              cost            
     "manualCrank": Generator("Hand Crank",                      0,               0.05,           "hand crank"),
     "potato":      Generator("Potato Battery",                  1,               0.1,            "potato"),
     "windHand":    Generator("Handheld Wind Turbine",           10,              1,              "wind turbine"),
-    "solarHand":   Generator("Portable Solar Panel",            100,             2,              "solar panel"),
-    "alcoholTEG":  Generator("Alcohol Burner w TEG",            250,             5,              "burner"),
-    "smallWind":   Generator("Small Wind Turbine",              800,             10,             "wind turbine"),
-    "keroseneTEG": Generator("Kerosene Burner w TEG",           1_100,           22,             "burner"),
-    "medSolar":    Generator("Medium Solar Panel",              3_500,           70,             "solar panel"),
-    "fuelCell":    Generator("Methanol Fuel Cell",              4_500,           80,             "fuel cell"),
-    "medWind":     Generator("Medium Wind Turbine",             28_000,          225,            "wind turbine"),
-    "smallArray":  Generator("Small Solar Array",               35_000,          500,            "solar panel"),
-    "microHydro":  Generator("Stream Hydro Dam",                55_000,          900,            "hydro dam"),
-    "portableGen": Generator("Portable Generator",              125_000,         1_100,          "generator"),
-    "medArray":    Generator("Medium Solar Array",              300_000,         2_500,          "solar panel"),
-    "bigWind":     Generator("Large Wind Turbine",              400_000,         4_500,          "wind turbine"),
-    "propaneGen":  Generator("Propane Generator",               800_000,         7_500,          "generator"),
-    "smallHydro":  Generator("Small Hydro Dam",                 1_300_000,       11_000,         "hydro dam"),
-    "largeArray":  Generator("Large Solar Array",               2_200_000,       18_000,         "solar panel"),
-    "biogasGen":   Generator("Biogas Generator",                4_000_000,       30_000,         "generator"),
-    "hugeWind":    Generator("Huge Wind Turbine",               6_000_000,       80_000,         "wind turbine"),
-    "dieselGen":   Generator("Large Diesel Generator",          25_000_000,      200_000,        "generator"),
-    "solarFarmS":  Generator("Small Solar Farm",                65_000_000,      500_000,        "solar panel"),
-    "landfillGas": Generator("Landfill-Gas Engine",             100_000_000,     600_000,        "power plant"),
-    "onSWind":     Generator("Onshore Wind Turbine",            150_000_000,     700_000,        "wind turbine"),
-    "tinyNuke":    Generator("Tiny Nuclear Reactor",            250_000_000,     1_000_000,      "nuclear"),
-    "offSWind":    Generator("Offshore Wind Turbine",           400_000_000,     1_500_000,      "wind turbine"),
-    "solarFarmL":  Generator("Large Solar Farm",                650_000_000,     3_000_000,      "solar panel"),
-    "tidalArray":  Generator("Tidal Turbine Array",           1_500_000_000,     6_000_000,      "tidal"),
-    "geoPlant":    Generator("Geothermal Power Plant",        2_500_000_000,     8_000_000,      "geothermal"),
-    "biomass":     Generator("Biomass Power Plant",           5_000_000_000,    25_000_000,      "power plant"),
-    "mediumHydro": Generator("Medium Hydro Dam",             12_000_000_000,    50_000_000,      "hydro dam"),
-    "smallNuke":   Generator("Small Nuclear Reactor",        30_000_000_000,    80_000_000,      "nuclear"),
-    "gasTurbine":  Generator("Gas Turbine Plant",            65_000_000_000,   250_000_000,      "power plant"),
-    "coalPlant":   Generator("Coal Power Station",          200_000_000_000,   500_000_000,      "power plant"),
-    "largeHydro":  Generator("Large Hydro Dam",             500_000_000_000, 1_200_000_000,      "hydro dam"),
+    "solarHand":   Generator("Portable Solar Panel",            75,              2,              "solar panel"),
+    "alcoholTEG":  Generator("Alcohol Burner w TEG",            190,             5,              "burner"),
+    "smallWind":   Generator("Small Wind Turbine",              500,             10,             "wind turbine"),
+    "keroseneTEG": Generator("Kerosene Burner w TEG",           850,             22,             "burner"),
+    "medSolar":    Generator("Medium Solar Panel",              2_500,           70,             "solar panel"),
+    "fuelCell":    Generator("Methanol Fuel Cell",              3_500,           80,             "fuel cell"),
+    "medWind":     Generator("Medium Wind Turbine",             22_000,          225,            "wind turbine"),
+    "smallArray":  Generator("Small Solar Array",               26_000,          500,            "solar panel"),
+    "microHydro":  Generator("Stream Hydro Dam",                42_000,          900,            "hydro dam"),
+    "portableGen": Generator("Portable Generator",              95_000,          1_100,          "generator"),
+    "medArray":    Generator("Medium Solar Array",              225_000,         2_500,          "solar panel"),
+    "bigWind":     Generator("Large Wind Turbine",              300_000,         4_500,          "wind turbine"),
+    "propaneGen":  Generator("Propane Generator",               600_000,         7_500,          "generator"),
+    "smallHydro":  Generator("Small Hydro Dam",                 975_000,         11_000,         "hydro dam"),
+    "largeArray":  Generator("Large Solar Array",               1_650_000,       18_000,         "solar panel"),
+    "biogasGen":   Generator("Biogas Generator",                3_000_000,       30_000,         "generator"),
+    "hugeWind":    Generator("Huge Wind Turbine",               4_500_000,       80_000,         "wind turbine"),
+    "dieselGen":   Generator("Large Diesel Generator",          19_000_000,      200_000,        "generator"),
+    "solarFarmS":  Generator("Small Solar Farm",                45_000_000,      400_000,        "solar panel"),
+    "landfillGas": Generator("Landfill-Gas Engine",             75_000_000,      600_000,        "power plant"),
+    "onSWind":     Generator("Onshore Wind Turbine",            110_000_000,     700_000,        "wind turbine"),
+    "tinyNuke":    Generator("Tiny Nuclear Reactor",            180_000_000,     1_000_000,      "nuclear"),
+    "offSWind":    Generator("Offshore Wind Turbine",           300_000_000,     1_500_000,      "wind turbine"),
+    "solarFarmL":  Generator("Large Solar Farm",                490_000_000,     3_000_000,      "solar panel"),
+    "tidalArray":  Generator("Tidal Turbine Array",           1_125_000_000,     6_000_000,      "tidal"),
+    "geoPlant":    Generator("Geothermal Power Plant",        1_750_000_000,     8_000_000,      "geothermal"),
+    "biomass":     Generator("Biomass Power Plant",           3_250_000_000,    20_000_000,      "power plant"),
+    "mediumHydro": Generator("Medium Hydro Dam",              9_000_000_000,    50_000_000,      "hydro dam"),
+    "smallNuke":   Generator("Small Nuclear Reactor",        22_500_000_000,   100_000_000,      "nuclear"),
+    "gasTurbine":  Generator("Gas Turbine Plant",            45_000_000_000,   250_000_000,      "power plant"),
+    "coalPlant":   Generator("Coal Power Station",          125_000_000_000,   500_000_000,      "power plant"),
+    "largeHydro":  Generator("Large Hydro Dam",             280_000_000_000, 1_250_000_000,      "hydro dam"),
     "largeNuke":   Generator("Large Nuclear Reactor",     1_000_000_000_000, 2_500_000_000,      "nuclear"), #end of base game; you're forced to prestige here to progress
-    "test":        Generator("Test",                      1_111_000_000_000, 2_525_000_000,      "potato"), #test
+    "test":        Generator("Test",                      1_250_000_000_000, 3_000_000_000,      "potato"), #test
 }
 
 typeUpgrades = {
@@ -657,58 +657,58 @@ typeUpgrades = {
         Upgrade("Magnesium Electrode",      250, 100)
     ],
     "wind turbine": [
-        Upgrade("Taller Mast",               50,  15),
-        Upgrade("Smart Inverter",            80,  10),
-        Upgrade("Carbon Blades",            120,  20),
-        Upgrade("Variable Pitch Blades",    150,  35)
+        Upgrade("Taller Mast",               40,  20),
+        Upgrade("Smart Inverter",            55,  20),
+        Upgrade("Carbon Blades",             70,  25),
+        Upgrade("Variable Pitch Blades",    115,  45)
     ],
     "solar panel": [
-        Upgrade("Low-Resistance Cabling",    50,  10),
-        Upgrade("Autocleaning",              65,  10),
-        Upgrade("Bifacial Cells",           125,  20),
-        Upgrade("Sun Tracking",             200,  50)
+        Upgrade("Low-Resistance Cabling",    35,  15),
+        Upgrade("Autocleaning",              40,  15),
+        Upgrade("Bifacial Cells",            75,  25),
+        Upgrade("Sun Tracking",             125,  65)
     ],
     "burner": [
-        Upgrade("Improved Nozzle",           30,  10),
-        Upgrade("Exhaust Heat Recovery",     50,  10),
-        Upgrade("Heat Pipes",                90,  25)
+        Upgrade("Improved Nozzle",           25,  15),
+        Upgrade("Exhaust Heat Recovery",     40,  15),
+        Upgrade("Heat Pipes",                70,  30)
     ],
     "fuel cell": [
-        Upgrade("Water Recycling Loop",      50,  10),
-        Upgrade("High-Efficiency Membrane",  60,  10),
-        Upgrade("High-Quality Fuel",         80,  15),
-        Upgrade("Platinum Catalyst",        150,  25)
+        Upgrade("Water Recycling Loop",      40,  15),
+        Upgrade("High-Efficiency Membrane",  45,  15),
+        Upgrade("High-Quality Fuel",         60,  20),
+        Upgrade("Platinum Catalyst",        100,  30)
     ],
     "hydro dam": [
-        Upgrade("Water Filtration",          25,   5),
-        Upgrade("Improved Turbine",          60,  15),
-        Upgrade("Variable-Speed Generator", 125,  20)
+        Upgrade("Water Filtration",          20,  10),
+        Upgrade("Improved Turbine",          45,  20),
+        Upgrade("Variable-Speed Generator",  60,  25)
     ],
     "generator": [
-        Upgrade("Low-Friction Oil",          20,   5),
-        Upgrade("Improved ECU",              35,  10),
-        Upgrade("Fuel Injection",            60,  15),
-        Upgrade("Turbocharging",            150,  35)
+        Upgrade("Low-Friction Oil",          15,  5),
+        Upgrade("Improved ECU",              20,  10),
+        Upgrade("Fuel Injection",            45,  20),
+        Upgrade("Turbocharging",            125,  50)
     ],
     "power plant": [
-        Upgrade("Improved Heat Recovery",    35,  10),
-        Upgrade("Advanced Turbine Blades",   60,  15),
-        Upgrade("Combined Cycle Add-on",    100,  20),
-        Upgrade("Supercritical Steam",      150,  40)
+        Upgrade("Improved Heat Recovery",    25,  15),
+        Upgrade("Advanced Turbine Blades",   45,  20),
+        Upgrade("Combined Cycle Add-on",     75,  25),
+        Upgrade("Supercritical Steam",      115,  50)
     ],
     "nuclear": [
-        Upgrade("Richer Fuel Rods",         100,  15),
-        Upgrade("Molten Salt Loop",         500,  75)
+        Upgrade("Richer Fuel Rods",          60,  20),
+        Upgrade("Molten Salt Loop",         250,  75)
     ],
     "geothermal": [
-        Upgrade("Anti-Scale Protection",     30,   5),
-        Upgrade("Reinjection Loop",          80,  10),
-        Upgrade("Deeper Reservoirs",        200,  25)
+        Upgrade("Anti-Scale Protection",     20,  10),
+        Upgrade("Reinjection Loop",          30,  15),
+        Upgrade("Deeper Reservoirs",         70,  30)
     ],
     "tidal": [
-        Upgrade("Corrosion-Proof Blades",     50,  5),
-        Upgrade("Gearless Generator",        150, 15),
-        Upgrade("Optimised Blade Profile",   200, 25)
+        Upgrade("Corrosion-Proof Blades",     25, 15),
+        Upgrade("Gearless Generator",         40, 25),
+        Upgrade("Optimised Blade Profile",    60, 35)
     ]
 }
 
@@ -820,28 +820,28 @@ def FormatMoney(m, stripZeros=True):
         if m >= 100:
             s = f"{m:3.0f}"
         elif m >= 10:
-            s = f"{m:3.1f}"
+            s = f"{m:4.1f}"
         else:
             s = f"{m:3.2f}"
 
     return f"${s}{units[mag]}"
 
 # UI Drawing Functions - grouped together for clarity
-def DrawStatsBar(totalWatts, money):
+def DrawStatsBar(totalWatts, money):  # It's possible to make just the relevant characters update, but it's so long it's not worth implementing
     global prevWatts, prevMoney
     if totalWatts != prevWatts:
-        Txt(f"     ", 234, topH // 2, 1, 0.5)
-        Txt(FormatPower(totalWatts, False), 234, topH // 2, 1, 0.5)
+        #Txt(f"      ", 234, 4, 1, 0)
+        Txt(" "+FormatPower(totalWatts, False), 234, 4, 1, 0)
         prevWatts = totalWatts
     if money != prevMoney:
-        Txt(f"          ", 6, topH // 2, 0, 0.5)
-        Txt(FormatMoney(money, False), 6, topH // 2, 0, 0.5)
+        #Txt(f"       ", 6, 4, 0, 0)
+        Txt(FormatMoney(money, False)+" ", 6, 4, 0, 0)
         prevMoney = money
     
     # Show PC count after first prestige (to the right of money)
     if game.prestigeCount >= 1:
         pcText = f"{game.prestigePoints:.3g} PC"
-        Txt(pcText, 6 + len(FormatMoney(money, False)) * 8 + 10, topH // 2, 0, 0.5)
+        Txt(pcText, 6 + len(FormatMoney(money, False)) * 8 + 10, 4, 0, 0)
     
     # Show prestige button if available
     if not game.inPrestigeMode and not game.showFirstPrestigeIntro:
@@ -849,7 +849,7 @@ def DrawStatsBar(totalWatts, money):
 
 def DrawTitleScreen():
     display.fill(WHITE)
-    Txt(version, 6, 6, 0, 0)
+    #Txt(version, 6, 6, 0, 0)
     #Txt(f"a{atomic_version}", 234, 6, 1, 0)
     DrawText(display, font16, "The $1 Watt", 120, 110, BLACK, WHITE, 0.5, 0.5)
     Txt("Press A to Start", 120, 135, 0.5, 0)
@@ -952,7 +952,6 @@ def DrawUpgradeUI(gen):
 
         y -= spacing + boxH
 
-# Game Logic Functions - separate from UI drawing
 def GetAvailableGenerators():
     """Return generators that should be visible based on research lab unlock"""
     availableGens = []
@@ -967,7 +966,6 @@ def GetAvailableGenerators():
     
     return availableGens
 
-# Initialization functions - separate setup from main loop
 def InitializeGame():
     """Initialize game variables and setup"""
     global genOrder, prevUp, prevDown, prevA, prevX, prevWatts, prevMoney
@@ -1021,6 +1019,8 @@ def RunIntroLoop():
 def RunMainGameLoop():
     """Handle main game loop with all state management"""
     global prevUp, prevDown, prevA, prevX
+    # Initialize previous button states to prevent control issues
+    prevUp = prevDown = prevA = prevX = False
     lastUpdate = ticks_us()
     
     while game.gameState == "game":
@@ -1071,10 +1071,7 @@ if DEBUG:
                 f"{pricePct:3.0f}% cost - {wattPct:3.0f}% power - "
                 f"{ratio:2.1f} ratio - {seconds:3.0f} seconds")
 
-# Initialize game state
 InitializeGame()
-
-# Run game state loops in sequence
 RunTitleScreenLoop()
 RunIntroLoop() 
 RunMainGameLoop()
