@@ -168,6 +168,8 @@ Mainly for internal use or performance-critical logic.
 
 Efficient helper functions for core tasks.
 
+---
+
 ### Pressed
 
 Check if a button is currently being pressed (i.e. its GPIO pin is low).  
@@ -246,6 +248,39 @@ Generate a random float using a normal distribution with optional clamping.
 
 ---
 
+# Textbox Module
+
+`from atomic import textbox`
+
+A lightweight text console for Pico games and tools. It renders text into a fixed character grid, supports optional word-wrapping, and can scroll when the text reaches the bottom.
+
+---
+
+## CreateTextBox
+
+Create (and clear) the global textbox instance used by `Print()`.
+
+CreateTextBox(display, font, startX, startY, widthChars, heightChars, fg, bg)
+
+- display: target display object  
+- font: bitmap font (must have `.WIDTH` and `.HEIGHT`)  
+- startX, startY: top-left position in pixels  
+- widthChars: width in characters  
+- heightChars: height in characters  
+- fg: foreground colour (RGB565)  
+- bg: background colour (RGB565)
+
+Example:
+
+```python
+from atomic.textbox import CreateTextBox, Print
+
+CreateTextBox(display, font8, 8, 8, 28, 13, WHITE, BLACK)
+Print("Hello world")
+```
+
+---
+
 # Licence
 
 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 (CC BY-NC-ND 4.0)
@@ -254,4 +289,4 @@ Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 (CC BY-NC-ND 4.0)
 - No commercial use
 - No modification or redistribution without permission
 
-(c) 2025 Henry Gurney
+(c) 2026 Henry Gurney

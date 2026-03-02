@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Henry Gurney
+# Copyright (c) 2026 Henry Gurney
 # Licensed under CC BY-NC-ND 4.0
 
 from machine import Pin, SPI, ADC
@@ -8,7 +8,7 @@ from time import sleep, ticks_ms
 import vga2_16x32 as font16
 import vga2_8x16 as font8
 
-from atomic import utilities, Pressed, RGBto565, WrapText
+from atomic import utilities, Pressed, RGBto565, WrapText, CreateTextBox, Print
 from atomic import __version__ as atomicVersion
 
 spi = SPI(1, baudrate=60000000, polarity=1, phase=1,
@@ -23,12 +23,12 @@ display = st7789.ST7789(
 )
 
 Pin(13, Pin.OUT).value(1)
-batteryAdc = ADC(26)
+batteryAdc = ADC(29)
 
 try:
     display.init()
 except Exception as e:
-    print(f"{e}\nSome systems don't require display.init() and crash when they see it, including yours, so I've skipped the line automatically and it should run normally now - if not, you will have to debug the error manually")
+    print(f"{e}\nSome systems don't require display.init() and crash when they see it, probably including yours, so I've skipped the line automatically and it should run normally now - if not, you will have to debug the error manually")
 
 iUp     = Pin(2,  Pin.IN, Pin.PULL_UP)
 iDown   = Pin(18, Pin.IN, Pin.PULL_UP)
@@ -45,7 +45,9 @@ WHITE = RGBto565(255, 255, 255)
 GREY  = RGBto565(215, 215, 215)
 
 sys.path.append("/")
-version = "v1.5"
+version = "v1.6"
+
+DEBUG = True ###
 
 lastButtonTime = {
     'up': 0, 'down': 0, 'a': 0, 'y': 0
@@ -234,24 +236,35 @@ def Launch(path):
         raise  # Exit the game cleanly on keyboard interrupt
     except Exception as e:
         display.fill(WHITE)
-        Text8("Error:", 120, 100, jx=0.5)
-        Text8(str(e)[:240], 120, 116, jx=0.5)
+        CreateTextBox(
+            display=display,
+            font=font8,
+            startX=8,
+            startY=8,
+            widthChars=28,
+            heightChars=13,
+            fg=BLACK,
+            bg=WHITE
+        )
+        Print("Error:")
+        Print(str(e))
         sleep(5)
 
 def ShowTitleScreen():
     display.fill(WHITE)
     Text16("PithOS", 120, 120, 0.5, 0.5) #change this to a better font
-    sleep(2)
+    if not DEBUG:
+        sleep(2)
 
 def BatteryPercentage():
     raw = batteryAdc.read_u16()
-    voltage = (raw / 65535) * 3.3
-    if voltage <= 2: #on usb power, or possibly charging
+    voltage = (raw / 65535) * 9.9 #9.9 = 3 * 3.3
+    if voltage <= 2:
         perc = 100
     elif voltage >= 4.2:
         perc = 100
     elif voltage <= 3.4:
-        perc = 0 #auto shutoff here
+        perc = 0 #auto shutoff here, not implemented yet though
     else:
         perc = int(round((voltage - 3.4) * (4.2/3.4) * 100, 0)) #3.4V is empty, 4.2V is full
     #print(perc, voltage)
@@ -293,3 +306,5 @@ Launch(selectedGame)
 #TODO
 #add a way to exit games and return to the menu
 #probably add the battery and storage info to the games selection as a top menu bar
+#add the auto-shutoff when the battery is low
+#make A skip the intro screen

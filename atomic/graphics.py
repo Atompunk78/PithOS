@@ -48,3 +48,28 @@ def HEXto565(h: str) -> int:
     g = int(h[2:4], 16)
     b = int(h[4:6], 16)
     return RGBto565(r, g, b)
+
+@micropython.viper
+def ScaleSprite(src: ptr8, dst: ptr8,
+                   srcW: int, srcH: int, scale: int):
+    if scale <= 0:
+        return
+
+    dstW = srcW * scale
+
+    for y in range(srcH):
+        srcRowBase = (y * srcW) << 1
+
+        for ry in range(scale):
+            dstRowBase = ((y * scale + ry) * dstW) << 1
+
+            for x in range(srcW):
+                srcI = srcRowBase + (x << 1)
+                b0 = src[srcI]
+                b1 = src[srcI + 1]
+
+                dstI = dstRowBase + ((x * scale) << 1)
+                for rx in range(scale):
+                    di = dstI + (rx << 1)
+                    dst[di] = b0
+                    dst[di + 1] = b1

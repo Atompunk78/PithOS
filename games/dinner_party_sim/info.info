@@ -1,0 +1,9 @@
+{
+    "title": "Dinner Party",
+    "description": "Survive a formal dinner party at Northrepps!",
+    "version": "1.1",
+    "reqAtomic": "1.4",
+    "priority": "60",
+    "author": "Henry Gurney",
+    "licence": "CC BY-NC-ND 4.0"
+}

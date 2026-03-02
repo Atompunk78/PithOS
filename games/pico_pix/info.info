@@ -1,0 +1,9 @@
+{
+    "title": "Pico Pix",
+    "description": "View and compress your pictures",
+    "version": "1.0",
+    "reqAtomic": "1.5",
+    "priority": "75",
+    "author": "Henry Gurney",
+    "licence": "CC BY-NC-ND 4.0"
+}
