@@ -47,7 +47,7 @@ GREY  = RGBto565(215, 215, 215)
 sys.path.append("/")
 version = "v1.6"
 
-DEBUG = True ###
+DEBUG = False ###
 
 lastButtonTime = {
     'up': 0, 'down': 0, 'a': 0, 'y': 0
